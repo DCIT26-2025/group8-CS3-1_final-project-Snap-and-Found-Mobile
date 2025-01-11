@@ -1,45 +1,117 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
+import { View, Text, Image } from 'react-native'
+import React from 'react'
+import { Tabs, Redirect } from 'expo-router'
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import icons from '@/constants/icons'
+import { StatusBar } from 'expo-status-bar';
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
-  );
+interface TabIconProps {
+  icon: any;
+  color: string;
+  name: string;
+  focused: boolean;
 }
+
+const TabIcon: React.FC<TabIconProps> = ({ icon, color, name, focused }) => {
+  return (
+    <View className={`items-center justify-center gap-1 mt-7`}>
+      <Image
+        source={icon}
+        resizeMode='contain'
+        tintColor={color}
+        className={`w-6 h-6`}
+      />
+
+      <Text className={`${focused ? 'font-psemibold' : 'font-pregular'} text-sm w-[100%]`} style={{color: color}}>
+        {name}
+      </Text>
+    </View>
+  )
+}
+
+const TabsLayout = () => {
+  return (
+    <>
+      <Tabs
+        screenOptions={{
+          tabBarShowLabel: false,
+          tabBarActiveTintColor: '#3e9b3d',
+          tabBarInactiveTintColor: '#808080',
+          tabBarStyle: {
+            backgroundColor: '#faf8f6',
+            borderTopWidth: 0,
+            borderTopColor: '#773adb',
+            height: 64
+          }
+        }}
+      >
+        <Tabs.Screen 
+          name='Dashboard'
+          options={{
+            title: 'Dashboard',
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon 
+                icon={icons.home}
+                color={color}
+                name='Dashboard'
+                focused={focused}
+              />
+            )
+          }}   
+        />
+
+        <Tabs.Screen 
+          name='Found'
+          options={{
+            title: 'Found',
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => ( 
+              <TabIcon 
+                icon={icons.found}
+                color={color}
+                name='Found'
+                focused={focused}
+              />
+            )
+          }}   
+        />
+
+        <Tabs.Screen 
+          name='Lost'
+          options={{
+            title: 'Lost',
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon 
+                icon={icons.lost}
+                color={color}
+                name='Lost'
+                focused={focused}
+              />
+            )
+          }}   
+        />
+
+        <Tabs.Screen 
+          name='Profile'
+          options={{
+            title: 'Profile',
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon 
+                icon={icons.profile}
+                color={color}
+                name='Profile'
+                focused={focused}
+              />
+            )
+          }}   
+        />
+      </Tabs>
+      <StatusBar backgroundColor='#faf8f6' style='dark'/>
+    </>
+  )
+}
+
+export default TabsLayout
