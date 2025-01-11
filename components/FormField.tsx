@@ -9,10 +9,21 @@ interface FormFieldProps {
   placeholder: string;
   handleChangeText: (text: string) => void;
   otherStyles?: string;
+  multiline?: boolean;
+  numberOfLines?: number;
   [key: string]: any;
 }
 
-const FormField: React.FC<FormFieldProps> = ({ title, value, placeholder, handleChangeText, otherStyles, ...props }) => {
+const FormField: React.FC<FormFieldProps> = ({
+  title,
+  value,
+  placeholder,
+  handleChangeText,
+  otherStyles,
+  multiline = false,
+  numberOfLines = 1,
+  ...props
+}) => {
   const [showPassword, setshowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -21,12 +32,12 @@ const FormField: React.FC<FormFieldProps> = ({ title, value, placeholder, handle
       <Text className="ml-1 text-base text-quaternary font-pmedium">{title}</Text>
 
       <View
-        className={`border-2 w-full h-16 px-4 bg-tertiary rounded-xl items-center ${
+        className={`border-2 w-full ${multiline ? 'h-32' : 'h-16'} px-4 bg-tertiary rounded-xl items-center ${
           isFocused ? 'border-secondary' : 'border-primary'
-        } flex-row` }
+        } flex-row`}
       >
         <TextInput
-          className="flex-1 text-quaternary font-psemibold text-base"
+          className={`flex-1 text-quaternary font-psemibold text-base ${multiline ? 'h-full' : ''}`}
           value={value}
           placeholder={placeholder}
           placeholderTextColor="#7b7b8b"
@@ -34,14 +45,15 @@ const FormField: React.FC<FormFieldProps> = ({ title, value, placeholder, handle
           secureTextEntry={(title === 'Password' && !showPassword) || (title === 'New Password' && !showPassword) || (title === 'Confirm Password' && !showPassword)}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
+          multiline={multiline}
+          numberOfLines={numberOfLines}
         />
 
         {(title === 'Password' || title === 'New Password' || title === 'Confirm Password') && (
-            <TouchableOpacity onPress={() => setshowPassword(!showPassword)}>
-              <Image source={!showPassword ? icons.eye : icons.eyeHide} className='w-6 h-6' resizeMode='contain'/>
-            </TouchableOpacity>
+          <TouchableOpacity onPress={() => setshowPassword(!showPassword)}>
+            <Image source={!showPassword ? icons.eye : icons.eyeHide} className="w-6 h-6" resizeMode="contain" />
+          </TouchableOpacity>
         )}
-
       </View>
     </View>
   );

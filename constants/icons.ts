@@ -6,6 +6,9 @@ import profile from '@/assets/icons/PROFILE.png'
 import track from '@/assets/icons/TRACK.png'
 import eye from '@/assets/icons/EYE.png'
 import eyeHide from '@/assets/icons/EYE-HIDE.png'
+import upload from '@/assets/icons/UPLOAD.png'
+import empty from '@/assets/icons/EMPTY.png'
+import user from '@/assets/icons/USER.png'
 
 export default {
   found,
@@ -16,4 +19,7 @@ export default {
   track,
   eye,
   eyeHide,
+  upload,
+  empty,
+  user,
 };
