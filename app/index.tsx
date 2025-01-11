@@ -24,7 +24,7 @@ export default function App() {
           />
 
           <View className='relative mt-[-30px] mb-5'>
-            <Text className='text-lg text-quaternary font-semibold text-center mb-20'>
+            <Text className='text-lg text-quaternary font-psemibold text-center mb-20'>
               Find your stuff in a snap.
             </Text>
           </View>
