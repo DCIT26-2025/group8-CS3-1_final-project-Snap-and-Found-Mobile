@@ -76,7 +76,7 @@ export default function Dropdown({
                 style={[
                   styles.options,
                   {
-                    top: top + 60, 
+                    top: top + 105, 
                     width: width, 
                   },
                 ]}

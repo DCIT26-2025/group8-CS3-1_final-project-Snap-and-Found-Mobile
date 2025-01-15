@@ -10,6 +10,9 @@ import upload from '@/assets/icons/UPLOAD.png'
 import empty from '@/assets/icons/EMPTY.png'
 import user from '@/assets/icons/USER.png'
 import logout from '@/assets/icons/LOGOUT.png'
+import email from '@/assets/icons/EMAIL.png'
+import contact from '@/assets/icons/CONTACT.png'
+import id from '@/assets/icons/ID.png'
 
 export default {
   found,
@@ -23,5 +26,8 @@ export default {
   upload,
   empty,
   user,
-  logout
+  logout,
+  contact,
+  id,
+  email,
 };

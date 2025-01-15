@@ -40,7 +40,7 @@ export default function App() {
           <CustomButton
             title="Get Started"
             handlePress={() => router.replace('/sign-in')}
-            containerStyles="w-[90%] absolute self-center bottom-[50px]"
+            containerStyles="w-[90%] absolute self-center bottom-[50px] mb-[-30px]"
           />
         </View>
       </ScrollView>

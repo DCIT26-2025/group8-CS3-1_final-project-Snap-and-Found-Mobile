@@ -57,7 +57,10 @@ const Dashboard = () => {
           </View>
         )}
         ListEmptyComponent={() => (
-          <EmptyState title='No Items Found' />
+          <EmptyState
+            title='No Items at the Moment'
+            type='found'
+          />
         )}
       />
     </SafeAreaView>
