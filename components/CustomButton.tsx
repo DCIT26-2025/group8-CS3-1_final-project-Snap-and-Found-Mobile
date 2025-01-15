@@ -7,6 +7,7 @@ interface CustomButtonProps {
   containerStyles?: string;
   textStyles?: string;
   isLoading?: boolean;
+  disabled?:boolean;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({title, handlePress, containerStyles, textStyles, isLoading}) => {

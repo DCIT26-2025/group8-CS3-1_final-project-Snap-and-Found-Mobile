@@ -16,10 +16,12 @@ const Found = () => {
   
   return (
     <SafeAreaView className='h-full bg-primary'>
+      <View className='w-[95%] px-6 mt-6 h-[45px]'>
+        <Text className='font-pregular text-2xl text-secondary font-psemibold mb-7'>Found an Item?</Text>
+      </View>
+      
       <ScrollView>
-        <View className='w-[95%] min-h-[95vh] px-4 my-6 self-center'>
-          <Text className='font-pregular text-2xl text-secondary font-psemibold mb-7'>Found an Item?</Text>
-
+        <View className='w-[95%] min-h-[95vh] px-4 self-center'>
           <Text className="ml-1 text-base text-quaternary font-pmedium mb-1">Select a Category</Text>
           <Dropdown
             data={[

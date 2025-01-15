@@ -76,8 +76,8 @@ export default function Dropdown({
                 style={[
                   styles.options,
                   {
-                    top: top + 60, // Adjust the top position to separate the dropdown items
-                    width: width, // Set the width of the options to match the button
+                    top: top + 60, 
+                    width: width, 
                   },
                 ]}
               >
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 6,
     maxHeight: 250,
-    top: 0, // Initial top value, will be adjusted dynamically
+    top: 0,
   },
   text: {
     fontSize: 15,

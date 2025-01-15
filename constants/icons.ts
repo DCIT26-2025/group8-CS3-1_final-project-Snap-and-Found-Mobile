@@ -9,6 +9,7 @@ import eyeHide from '@/assets/icons/EYE-HIDE.png'
 import upload from '@/assets/icons/UPLOAD.png'
 import empty from '@/assets/icons/EMPTY.png'
 import user from '@/assets/icons/USER.png'
+import logout from '@/assets/icons/LOGOUT.png'
 
 export default {
   found,
@@ -22,4 +23,5 @@ export default {
   upload,
   empty,
   user,
+  logout
 };

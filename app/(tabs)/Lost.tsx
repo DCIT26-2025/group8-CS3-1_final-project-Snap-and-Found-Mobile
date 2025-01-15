@@ -1,18 +1,27 @@
 import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import Dropdown from '@/components/DropDown'
 import icons from '@/constants/icons'
 import CustomButton from '@/components/CustomButton'
 import { router } from 'expo-router'
+import FormField from '@/components/FormField'
 
 const Lost = () => {
+  const [form, setForm] = useState({
+    title:'',
+    description:''
+  })
+  
   return (
     <SafeAreaView className='h-full bg-primary'>
+      <View className='w-[95%] px-6 mt-6 h-[45px]'>
+        <Text className='font-pregular text-2xl text-secondary font-psemibold mb-7'>Lost an Item?</Text>
+      </View>
+
       <ScrollView>
-        <View className='w-[95%] min-h-[95vh] px-4 my-6 self-center'>
-          <Text className='font-pregular text-2xl text-secondary font-psemibold mb-7'>Lost an Item?</Text>
+        <View className='w-[95%] min-h-[95vh] px-4 self-center'>
 
           <Text className="ml-1 text-base text-quaternary font-pmedium mb-1">Select a Category</Text>
           <Dropdown
@@ -41,8 +50,26 @@ const Lost = () => {
             </View>
           </TouchableOpacity>
 
+          <FormField
+            title='Item Title'
+            value={form.title}
+            handleChangeText={(e) => setForm({ ...form, title: e })}
+            otherStyles={'mt-7'}
+            placeholder={''}
+          />
+
+          <FormField
+            title='Description'
+            value={form.description}
+            handleChangeText={(e) => setForm({ ...form, description: e })}
+            otherStyles={'mt-7'}
+            placeholder={''}
+            multiline={true}
+            numberOfLines={4}
+          />
+
           <CustomButton
-            title='Find Matches'
+            title='Submit'
             handlePress={() => router.push('/Dashboard')}
             containerStyles={'mt-7'}
           />
