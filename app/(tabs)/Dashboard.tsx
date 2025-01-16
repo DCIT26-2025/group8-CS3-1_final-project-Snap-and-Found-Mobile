@@ -16,7 +16,6 @@ const Dashboard = () => {
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const opacity = useRef(new Animated.Value(0)).current;
 
-  // Fetch items from the server
   const fetchItems = async () => {
     try {
       const response = await fetch('http://192.168.1.3:5000/items');
@@ -64,7 +63,7 @@ const Dashboard = () => {
     setModalVisible(true);
     Animated.timing(opacity, {
       toValue: 1,
-      duration: 300, // Adjust the duration as needed
+      duration: 100,
       useNativeDriver: true,
     }).start();
   };
@@ -72,7 +71,7 @@ const Dashboard = () => {
   const handleCloseModal = () => {
     Animated.timing(opacity, {
       toValue: 0,
-      duration: 300, // Adjust the duration as needed
+      duration: 100,
       useNativeDriver: true,
     }).start(() => {
       setModalVisible(false);
@@ -109,7 +108,7 @@ const Dashboard = () => {
           <View className='justify-center'>
             <Text className="ml-2 text-m font-pmedium text-quaternary">{item.uploader}</Text>
             <View style={{alignSelf: 'flex-start', paddingHorizontal: 8, borderRadius: 4 }}>
-              <Text className="text-xs font-pmedium text-primary bg-secondary pl-2 pr-2 rounded-full">{item.type.toUpperCase()}</Text>
+              <Text className="text-xs font-pmedium text-primary bg-secondary pl-2 pr-2 rounded-full">{capitalizeFirstLetter(item.type)}</Text>
             </View>
           </View>
         </View>
@@ -159,9 +158,9 @@ const Dashboard = () => {
               >
                 <View className='mt-3'>
                   <Image
-                    source={icons.info}
+                    source={images.logo}
                     resizeMode='contain'
-                    className='h-7 w-7'
+                    className='h-11 w-11 justify-center'
                   />
                 </View>
               </TouchableOpacity>
@@ -171,7 +170,6 @@ const Dashboard = () => {
         ListEmptyComponent={() => (
           <EmptyState
             title='No Items at the Moment'
-            type='found'
           />
         )}
       />
@@ -185,11 +183,24 @@ const Dashboard = () => {
         >
           <Animated.View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.4)', opacity }}>
             <View style={{ backgroundColor: 'white', borderRadius: 10, padding: 20, width: '90%', height: '80%' }}>
+              <View className='mb-2'>
+                <TouchableOpacity
+                  style={{ alignItems: 'flex-end'}}
+                  onPress={handleCloseModal}
+                >
+                  <Image
+                    source={icons.close}
+                    style={{ width: 15, height: 15 }}
+                    resizeMode="contain"
+                  />
+                </TouchableOpacity>
+              </View>
               <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}>
                 <View>
-                  <Text className='text-quaternary font-psemibold mb-1 text-xl'>{selectedItem.item_name}</Text>
+                  <Text className='text-quaternary font-psemibold text-xl'>{selectedItem.item_name}</Text>
+                  <Text className='text-quaternary font-pmedium mb-2 text-xs' style={{color: '#666'}}>ID:  {selectedItem.item_id}</Text>
                   <View className='flex-row'style={{alignSelf: 'flex-start', borderRadius: 4 }}>
-                    <Text className="text-[12px] font-pmedium text-primary bg-secondary pl-2 pr-2 rounded-full mr-2">{capitalizeFirstLetter(selectedItem.type)}</Text>
+                    <Text className="text-[12px] font-pmedium text-primary bg-secondary pl-2 pr-2 rounded-full mr-1">{capitalizeFirstLetter(selectedItem.type)}</Text>
                     <Text className="text-[12px] font-pmedium text-primary bg-secondary pl-2 pr-2 rounded-full">{selectedItem.category}</Text>
                   </View>
                 </View>
@@ -210,11 +221,11 @@ const Dashboard = () => {
                   <View className='flex-row items-center'>
                     <Image
                       source={{ uri: selectedItem.uploader_avatar }}
-                      style={{ width: 30, height: 30, borderRadius: 20, marginTop: 10 }}
+                      style={{ width: 23, height: 23, borderRadius: 20, marginTop: 10 }}
                       resizeMode="cover"
                       className='mr-2'
                     />
-                    <Text className="font-pregular" style={{ fontSize: 14, fontWeight: '500', color: '#666', marginTop: 10 }}>
+                    <Text className="font-pregular" style={{ fontSize: 12, fontWeight: '500', color: '#666', marginTop: 10 }}>
                       {selectedItem.uploader}
                     </Text>
                   </View>
@@ -222,22 +233,16 @@ const Dashboard = () => {
                   <View className='flex-row items-center'>
                     <Image
                       source={icons.contact}
-                      style={{ width: 26, height: 26, borderRadius: 20, marginTop: 10 }}
+                      style={{ width: 20, height: 20, borderRadius: 20, marginTop: 10 }}
                       resizeMode="cover"
                       className='mr-2 ml-1'
                     />
-                    <Text className="font-pregular" style={{ fontSize: 14, fontWeight: '500', color: '#666', marginTop: 10 }}>
+                    <Text className="font-pregular" style={{ fontSize: 12, fontWeight: '500', color: '#666', marginTop: 10 }}>
                       {selectedItem.contact}
                     </Text>
                   </View> 
                 </View>
               </ScrollView>
-              <TouchableOpacity
-                style={{ alignSelf: 'center', marginTop: 10 }}
-                onPress={handleCloseModal}
-              >
-                <Text className='text-lg font-pmedium text-secondary'>Close</Text>
-              </TouchableOpacity>
             </View>
           </Animated.View>
         </Modal>
