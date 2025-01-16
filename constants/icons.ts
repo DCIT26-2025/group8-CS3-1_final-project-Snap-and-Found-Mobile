@@ -13,6 +13,7 @@ import logout from '@/assets/icons/LOGOUT.png'
 import email from '@/assets/icons/EMAIL.png'
 import contact from '@/assets/icons/CONTACT.png'
 import id from '@/assets/icons/ID.png'
+import info from '@/assets/icons/INFO.png'
 
 export default {
   found,
@@ -30,4 +31,5 @@ export default {
   contact,
   id,
   email,
+  info,
 };

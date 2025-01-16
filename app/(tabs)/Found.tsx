@@ -61,6 +61,7 @@ const Found = () => {
       data.append('description', form.description);
       data.append('uploader', uploaderInfo?.full_name || '');
       data.append('contact', uploaderInfo?.contact || '');
+      data.append('uploader_avatar', uploaderInfo?.avatar || '');
       
       if (form.image) {
         const uriParts = form.image.split('.');

@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, Image, TouchableOpacity, FlatList } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import icons from '@/constants/icons';
@@ -23,6 +23,31 @@ const Profile = () => {
     await AsyncStorage.removeItem('user');
     router.replace('/sign-in');
   };
+
+  const mockUploadedItems = [
+    { id: '1', title: 'Lost Wallet', description: 'Brown leather wallet', date: '2025-01-01' },
+    { id: '2', title: 'Car Keys', description: 'Toyota car keys with keychain', date: '2025-01-02' },
+    { id: '3', title: 'Umbrella', description: 'Black foldable umbrella', date: '2025-01-03' },
+  ];
+
+  const renderUploadedItems = () => {
+    return mockUploadedItems.map((item) => (
+      <View
+        key={item.id}
+        className="h-[100px] bg-tertiary flex-row justify-between px-5 py-3 mb-3 rounded-lg"
+      >
+        <View>
+          <Text className="text-lg text-quaternary font-pmedium">{item.title}</Text>
+          <Text className="text-sm text-secondary font-pregular">{item.description}</Text>
+          <Text className="text-sm text-quaternary font-pthin">{item.date}</Text>
+        </View>
+        <TouchableOpacity className="self-center bg-primary px-4 py-2 rounded-md">
+          <Text className="text-sm text-white font-pmedium">View</Text>
+        </TouchableOpacity>
+      </View>
+    ));
+  };
+
 
   return (
     <SafeAreaView className="h-full bg-primary">
@@ -87,6 +112,16 @@ const Profile = () => {
               <Text className="text-m text-quaternary font-pregular text-right flex-1 flex-wrap">{user?.contact || 'N/A'}</Text>
             </View>
 
+            <Text className="ml-1 text-base text-secondary font-pmedium mt-7 mb-1">UPLOADED ITEMS</Text>
+
+             {mockUploadedItems.length > 0 ? (
+                renderUploadedItems()
+              ) : (
+                <Text className="text-m text-quaternary font-pmedium mt-4 text-center">
+                  No items uploaded yet.
+                </Text>
+              )}
+            
           </View>
         </ScrollView>
       </View>
