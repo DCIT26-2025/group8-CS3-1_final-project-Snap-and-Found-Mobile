@@ -13,6 +13,7 @@ const Profile = () => {
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
   interface Item {
+    recovered: any;
     uploader_avatar: string;
     item_id: string;
     item_name: string;
@@ -83,17 +84,65 @@ const Profile = () => {
     setSelectedItemId((prevSelectedItemId) => (prevSelectedItemId === itemId ? null : itemId));
   };
 
+  const markAsRecovered = async (itemId: string) => {
+    try {
+      const response = await fetch(`http://192.168.1.3:5000/update_recovered/${itemId}`, {
+        method: 'PATCH',
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        Alert.alert('Error', result.message || 'Failed to update item.');
+        return;
+      }
+
+      setItems((prevItems) =>
+        prevItems.map((item) =>
+          item.item_id === itemId ? { ...item, recovered: true } : item
+        )
+      );
+      handleItemPress(itemId);
+      Alert.alert('Success', 'Item marked as recovered.');
+    } catch (error) {
+      Alert.alert('Error', 'Failed to update item.');
+    }
+  };
+
+  const deleteItem = async (itemId: string) => {
+    try {
+      const response = await fetch(`http://192.168.1.3:5000/delete_item/${itemId}`, {
+        method: 'DELETE',
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        Alert.alert('Error', result.message || 'Failed to delete item.');
+        return;
+      }
+
+
+      setItems((prevItems) => prevItems.filter((item) => item.item_id !== itemId));
+
+      Alert.alert('Success', 'Item deleted.');
+    } catch (error) {
+      Alert.alert('Error', 'Failed to delete item.');
+    }
+  };
+
   const renderItems = () => {
-    return items.map((item) => (
+    const sortedItems = [...items].sort((a, b) => a.recovered - b.recovered);
+    return sortedItems.map((item) => (
       <TouchableOpacity
         activeOpacity={0.8}
         key={item.item_id}
         onPress={() => handleItemPress(item.item_id)}
       >
-        <View className="bg-tertiary flex-row justify-between px-5 py-3 mb-2 pb-5 rounded-lg">
+        <View className={`${item.recovered ? "opacity-70 border border-secondary" : "opacity-100"} bg-tertiary flex-row justify-between px-5 py-3 mb-2 pb-3 rounded-lg`}>
           <View>
             <Text className="text-m text-quaternary font-pmedium">{item.item_name}</Text>
-            <Text style={{color: '#666'}}className="text-xs font-pmedium mb-2">ID:{item.item_id}</Text>
+            <Text style={{color: '#666'}}className="text-xs font-pmedium mb-2">ID: {item.item_id}</Text>
             <View className='flex-row'>
               <Text className="mr-1 text-xs font-pmedium text-primary bg-secondary pl-2 pr-2 rounded-full">{capitalizeFirstLetter(item.type)}</Text>
               <Text className="text-xs font-pmedium text-primary bg-secondary pl-2 pr-2 rounded-full">{item.category}</Text>
@@ -107,6 +156,23 @@ const Profile = () => {
                 />
                 <Text className="text-sm text-secondary font-pmedium mt-2">DESCRIPTION</Text>
                 <Text className="text-sm text-quaternary font-pregular">{item.description}</Text>
+
+                <View className='bg-[#999] h-[1px] w-[100%] mt-2'></View>
+                <View className='flex-row justify-between'>
+                  {
+                    item.recovered ? (
+                      <Text className="text-m text-[#666] font-pregular mt-2">Marked as Recovered</Text>
+                    ) : (
+                      <TouchableOpacity activeOpacity={0.8} onPress={() => markAsRecovered(item.item_id)}>
+                        <Text className="text-m text-secondary font-pregular mt-2">Recovered?</Text>
+                      </TouchableOpacity>
+                    )
+                  }
+                  
+                  <TouchableOpacity activeOpacity={0.8} onPress={() => deleteItem(item.item_id)}>
+                    <Text className="text-m text-[#f00] font-pregular mt-2">Delete</Text>
+                  </TouchableOpacity>
+                </View>
               </>
             )}
           </View>
@@ -192,9 +258,16 @@ const Profile = () => {
             {items.length > 0 ? (
               renderItems()
             ) : (
-              <Text className="text-m text-quaternary font-pmedium mt-4 text-center">
-                No items uploaded yet.
-              </Text>
+              <View>
+                <Image
+                  source={icons.empty}
+                  resizeMode="contain"
+                  className='w-[80px] h-[80px] self-center mt-2'
+                />
+                <Text className="text-m text-quaternary font-pmedium mt-4 text-center">
+                  No items uploaded yet.
+                </Text>
+              </View>
             )}
           </View>
         </ScrollView>

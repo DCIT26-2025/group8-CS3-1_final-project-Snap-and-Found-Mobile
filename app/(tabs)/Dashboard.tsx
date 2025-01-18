@@ -21,7 +21,8 @@ const Dashboard = () => {
       const response = await fetch('http://192.168.1.3:5000/items');
       const data = await response.json();
       if (data.items) {
-        setItems(data.items.reverse());
+        const filteredItems = data.items.filter((item: any) => item.recovered === false);
+        setItems(filteredItems.reverse());
       }
     } catch (error) {
       console.error('Error fetching items:', error);
